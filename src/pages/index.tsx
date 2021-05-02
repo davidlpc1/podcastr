@@ -2,9 +2,11 @@
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Head from 'next/head';
+import Head from "next/head";
 import { format, parseISO } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+
+import { motion } from "framer-motion";
 
 import { api } from "../services/api";
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
@@ -31,19 +33,37 @@ type HomeProps = {
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
   const { playList } = usePlayer();
 
-  const episodeList = [...latestEpisodes,...allEpisodes];
+  const episodeList = [...latestEpisodes, ...allEpisodes];
 
   return (
-    <div className={styles.homepage}>
+    <motion.div
+      transition={{ delay: 0.2, duration: 0.5 }}
+      className={styles.homepage}
+      variants={{
+        show: { opacity: 1, y: "0" },
+        hidden: { opacity: 0, y: "100%" },
+      }}
+      initial="hidden"
+      animate="show"
+    >
       <Head>
         <title>Home | Podcastr</title>
       </Head>
 
-      <section className={styles.latestEpisodes}>
+      <motion.section
+        initial={{ scale: 0 }}
+        animate={{ rotate: 360, scale: 1 }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 20,
+          delay:1,
+          duration: 0.5
+        }} className={styles.latestEpisodes}>
         <h2>Últimos lançamentos </h2>
 
         <ul>
-          {latestEpisodes.map((episode,index) => {
+          {latestEpisodes.map((episode, index) => {
             return (
               <li key={episode.id}>
                 <Image
@@ -63,15 +83,30 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button onClick={() => playList(episodeList, index)} type="button" title="Tocar episódio">
+                <button
+                  onClick={() => playList(episodeList, index)}
+                  type="button"
+                  title="Tocar episódio"
+                >
                   <img src="/play-green.svg" alt="Tocar episódio" />
                 </button>
               </li>
             );
           })}
         </ul>
-      </section>
-      <section className={styles.allEpisodes}>
+      </motion.section>
+      <motion.section
+        initial={{ scale: 0 }}
+        animate={{ rotate: 360, scale: 1 }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 20,
+          delay:1,
+          duration: 0.5
+        }}
+        className={styles.allEpisodes}
+      >
         <h2>Todos episódios</h2>
 
         <table cellSpacing={0}>
@@ -86,11 +121,11 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
           </thead>
 
           <tbody>
-            {allEpisodes.map((episode,index) => {
+            {allEpisodes.map((episode, index) => {
               return (
                 <tr key={episode.id}>
-                  <td  style={{ width: 72 }}>
-                    <Image 
+                  <td style={{ width: 72 }}>
+                    <Image
                       width={120}
                       height={120}
                       src={episode.thumbnail}
@@ -107,17 +142,23 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <td style={{ width: 100 }}>{episode.publishedAt}</td>
                   <td>{episode.durationAsString}</td>
                   <td>
-                    <button type="button" title="Tocar episódio" onClick={() => playList(episodeList,index + latestEpisodes.length)}>
-                      <img src="/play-green.svg" alt="Tocar episódio"/>
+                    <button
+                      type="button"
+                      title="Tocar episódio"
+                      onClick={() =>
+                        playList(episodeList, index + latestEpisodes.length)
+                      }
+                    >
+                      <img src="/play-green.svg" alt="Tocar episódio" />
                     </button>
                   </td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </table>
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   );
 }
 

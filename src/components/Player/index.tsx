@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Slider from "rc-slider";
+import { motion } from 'framer-motion';
 
 import "rc-slider/assets/index.css";
 
@@ -61,8 +62,8 @@ export function Player() {
     }
   }
 
-  function togglePlayer(){
-    setIsPlayerOpen(!isPlayerOpen)
+  function togglePlayer() {
+    setIsPlayerOpen(!isPlayerOpen);
   }
 
   const episode = episodeList[currentEpisodeIndex];
@@ -70,15 +71,24 @@ export function Player() {
   return (
     <>
       {!isPlayerOpen && (
-         <img
+        <img
           className={styles.closeImage}
           src="/close.svg"
           alt="Abrir"
           title="Abrir"
           onClick={togglePlayer}
         />
-      ) }
-      <div className={isPlayerOpen ? styles.playerContainer : styles.closed}>
+      )}
+      <motion.div
+       transition={{ delay: 0.3, duration: 0.5 }}
+        className={isPlayerOpen ? styles.playerContainer : styles.closed}
+        variants={{
+          show: { opacity: 1, y: "0" },
+          hidden: { opacity: 0, y: "100%" },
+        }}
+        initial="hidden"
+        animate="show"
+      >
         <img
           className={styles.closeImage}
           src="/close.svg"
@@ -193,7 +203,7 @@ export function Player() {
             </button>
           </div>
         </footer>
-      </div>
+      </motion.div>
     </>
   );
 }
