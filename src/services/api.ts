@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: "https://my-json-server.typicode.com/davidlpc1/podcastr/"
+    baseURL: "https://podcastr-server-davidlpc1.herokuapp.com/"
 })
