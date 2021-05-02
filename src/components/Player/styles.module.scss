@@ -11,6 +11,12 @@
     align-items: center;
     justify-content: space-between;
 
+    position: relative;
+
+    visibility: visible;
+
+    transition: all 350ms ease;
+
     header {
         display:flex;
         align-items: center;
@@ -29,6 +35,21 @@
             opacity: 0.5;
         }
     }
+}
+
+.closeImage{
+    width: 1.35rem;
+    position: absolute;
+    right:0.8rem;
+    top:0.8rem;
+    filter: invert(0.55) sepia(1) saturate(3) hue-rotate(100deg);
+}
+
+.closed{
+    width:0.1rem;
+    visibility: hidden;
+    overflow: hidden;
+    transition: all 350ms ease;
 }
 
 @media (max-width: 1080px){
